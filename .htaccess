@@ -7,5 +7,5 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-l
 
 # Все запросы перенаправим на основной файл
-RewriteRule ^(.+)$ index.php?url=$1 [QSA,L]
+RewriteRule ^(.*)$ index.php?route=$1 [L,QSA]
 </IfModule>

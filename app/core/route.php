@@ -1,15 +1,16 @@
 <?php
 class Route {
+
 	static function start(){
 
 		//действие контроллера по умолчанию
-		$controller_name = 'Main';
+		$controller_name = 'Auth';
 		$action_name = 'index';
 		$routes = explode('/', $_SERVER['REQUEST_URI']);
 
 		//получаем имя контроллера
-		if(!empty($routes[1])){
-			$controller_name = $routes[1];
+		if(!empty($routes[0])){
+			$controller_name = $routes[0];
 		}
 
 		//получаем имя экшена
@@ -41,7 +42,7 @@ class Route {
 
 		//создаем контроллер
 		$controller = new $controller_name;
-		$action = new $action_name;
+		$action = $action_name;
 		if(method_exists($controller, $action)){
 			//вызываем действие контроллера
 			$controller->$action();
@@ -54,7 +55,7 @@ class Route {
 	function ErrorPage404(){
 		$host = 'http://'.$_SERVER['HTTP_HOST'].'/';
 		header('HTTP/1.1 404 Not Found');
-		header("Status: 404 Nor Found");
+		header("Status: 404 Not Found");
 		header('Location'.$host.'404');
 	}
 }
