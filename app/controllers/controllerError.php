@@ -3,27 +3,27 @@
 class ControllerError extends Controller{
 
 	//не найден контроллер или экшен
-	public function notFoundAction($controllerName = "", $actionName = ""){
-		$this->view->render('error/not-found');
+	 static public function notFoundAction($controllerName = "", $actionName = ""){
+		View::generate($notFoundView, $templateView);
 		die;
 	}
 
 	//ошибка выполнения действия
-	public function errorAction($errno , $errstr = "" , $errfile = "", $errline = -1, $errcontext){
-		$this->view->render('error/error');
+	static public function errorAction($errno , $errstr = "" , $errfile = "", $errline = -1, $errcontext){
+		View::generate($errorView, $templateView);
 		die;
 	}
 
 	//исключенное действие
-	public function exceptionAction(Exception $ex = null){
-		$this->view->render('error/exception');
+	static public function exceptionAction(Exception $ex = null){
+		View::generate($errorView, $templateView);
 		die;
 	}
 
 	//класс экшена не найден
 	public function classNotFoundAction($className = ""){
 		$this->view->className = $className;
-		$this->view->render('error/class-not-found');
+		View::generate($notFoundView, $templateView);
 		die;
 	}
 }
