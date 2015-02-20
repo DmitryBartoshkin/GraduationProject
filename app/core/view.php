@@ -1,7 +1,11 @@
 <?php
 class View {
 
-	function generate($contentView, $templateView, $data = null){
+	public function __construct(){
+		ob_start();
+	}
+
+	static function generate($contentView, $templateView, $data = null){
 		if(is_array($data)){
 			extract($data);
 		}
