@@ -26,3 +26,10 @@ spl_autoload_register(function ($class) {
 		return true;
 	}
 });
+
+// перехват критических ошибок при ненайденом классе
+spl_autoload_register(function ($class) {
+	$controller = new ControllerError();
+	$controller->classNotFoundAction($class);
+	die;
+});
