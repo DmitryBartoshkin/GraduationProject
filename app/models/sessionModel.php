@@ -2,9 +2,6 @@
 
 Class SessionModel extends Model{
 
-	/**
-	 * @var User Модель пользователя привязанная к данным
-	 */
 	protected $user;
 
 	public function __construct(){
@@ -15,7 +12,7 @@ Class SessionModel extends Model{
 		}
 
 		$userId = isset($_SESSION['userId']) ? $_SESSION['userId'] : null;
-		if ($userId) {
+		if ($userId){
 			$this->user = StaffModel::findBy(array('id' => $userId));
 		}
 	}
@@ -41,7 +38,7 @@ Class SessionModel extends Model{
 	 * @return bool
 	 */
 	public function login($login, $pass){
-		$this->user = StaffModel::findBy(array('login' => $login, 'authkey' => $pass));
+		$this->user = StaffModel::findBy(array('login' => $login, 'password' => $pass));
 		return (bool)$this->user;
 	}
 
