@@ -1,10 +1,10 @@
 <?php
 class View {
 
-	function generate($content_view, $template_view, $data = null){
+	function generate($contentView, $templateView, $data = null){
 		if(is_array($data)){
 			extract($data);
 		}
-		include 'app/views/'.$template_view;
+		include 'app/views/'.$templateView;
 	}
 }

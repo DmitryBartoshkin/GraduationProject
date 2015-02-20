@@ -9,6 +9,6 @@
 	<script src="/js/jquery-1.10.2.min.js" type="text/javascript"></script>
 </head>
 <body>
-<?php include 'app/views/'.$content_view; ?>
+<?php include 'app/views/'.$contentView; ?>
 </body>
 </html>
