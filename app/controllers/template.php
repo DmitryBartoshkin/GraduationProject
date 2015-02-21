@@ -1,6 +1,6 @@
 <?php
 
-class ControllerTemplate extends Controller {
+class TemplateController extends Controller {
 
 	public function __construct() {
 		parent::__construct();

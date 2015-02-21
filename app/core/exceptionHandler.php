@@ -1,7 +1,7 @@
 <?php
 
 function exceptionHandler(Exception $ex){
-	$controller = new ControllerError();
+	$controller = new ErrorController();
 	$controller->exceptionAction($ex);
 
 	return true;

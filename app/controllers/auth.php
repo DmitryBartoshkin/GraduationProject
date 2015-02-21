@@ -1,6 +1,6 @@
 <?php
 
-class ControllerAuth extends Controller {
+class AuthController extends Controller {
 
 	public function loginAction(){
 		if ($this->session->isLoggedIn()) {

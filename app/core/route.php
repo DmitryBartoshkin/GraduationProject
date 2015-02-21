@@ -22,7 +22,7 @@ class Route{
 		if ( method_exists( $controller, $actionName ) ) {
 			call_user_func_array( array( $controller, $actionName ), $actionParams );
 		} else {
-			$controller = new ControllerError();
+			$controller = new ErrorController();
 			$controller->notFoundAction($controller, $actionName);
 		}
 	}

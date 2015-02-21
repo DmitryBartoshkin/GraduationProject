@@ -13,7 +13,7 @@ spl_autoload_register(function ($class) {
 	}
 
 	$modelName = str_replace('model', '', strtolower($class));
-	$modelFileName = APP_BASE_PATH.'/app/models/'.$modelName.'model'.'.php';
+	$modelFileName = APP_BASE_PATH.'/app/models/'.$modelName.'.php';
 	if (file_exists($modelFileName)) {
 		require_once($modelFileName);
 		return true;
@@ -34,7 +34,7 @@ spl_autoload_register(function ($class) {
 	}
 
 	$controllerName = str_replace('controller', '', strtolower($class));
-	$controllerFileName = APP_BASE_PATH.'/app/controllers/controller' . $controllerName . '.php';
+	$controllerFileName = APP_BASE_PATH.'/app/controllers/' . $controllerName . '.php';
 	if (file_exists($controllerFileName)) {
 		require_once($controllerFileName);
 		return true;
@@ -53,7 +53,7 @@ spl_autoload_register(function ($class) {
 
 // перехват критических ошибок при ненайденом классе
 spl_autoload_register(function ($class) {
-	$controller = new ControllerError();
+	$controller = new ErrorController();
 	$controller->classNotFoundAction($class);
 	die;
 });

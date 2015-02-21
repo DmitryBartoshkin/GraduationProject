@@ -1,6 +1,6 @@
 <?php
 
-class ControllerError extends Controller{
+class ErrorController extends Controller{
 
 	//не найден контроллер или экшен
 	 public function notFoundAction($controllerName = "", $actionName = ""){
@@ -10,13 +10,13 @@ class ControllerError extends Controller{
 
 	//ошибка выполнения действия
 	public function errorAction($errno , $errstr = "" , $errfile = "", $errline = -1, $errcontext){
-		$this->view->generate('errorView');
+		$this->view->generatePartial('errorView');
 		die;
 	}
 
 	//исключенное действие
 	public function exceptionAction(Exception $ex = null){
-		$this->view->generate('errorView');
+		$this->view->generatePartial('errorView');
 		die;
 	}
 
