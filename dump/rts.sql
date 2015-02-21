@@ -15,7 +15,7 @@ USE `rts`;
 DROP TABLE IF EXISTS `clients`;
 
 CREATE TABLE `clients` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL,
   `firstName` varchar(100) NOT NULL,
   `lastName` varchar(100) NOT NULL,
   `birthday` date NOT NULL,
@@ -139,9 +139,11 @@ CREATE TABLE `staff` (
   `login` varchar(65) NOT NULL,
   `password` varchar(65) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 /*Data for the table `staff` */
+
+insert  into `staff`(`id`,`name`,`birthday`,`occupation`,`login`,`password`) values (1,'Надя','1990-05-15','менеджер','nadya','827ccb0eea8a706c4c34a16891f84e7b'),(2,'Администратор','1984-10-10','администратор','admin','4eae18cf9e54a0f62b44176d074cbe2f');
 
 /*Table structure for table `times` */
 
@@ -173,7 +175,7 @@ CREATE TABLE `values` (
 DROP TABLE IF EXISTS `vizits`;
 
 CREATE TABLE `vizits` (
-  `id` int(100) NOT NULL AUTO_INCREMENT,
+  `id` int(100) NOT NULL,
   `idClient` int(10) NOT NULL,
   `time` time NOT NULL,
   `date` date NOT NULL,

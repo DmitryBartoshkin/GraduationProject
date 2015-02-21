@@ -2,13 +2,14 @@
 <html lang="ru">
 <head>
 	<meta charset="utf-8">
-	<title>Главная</title>
-	<link rel="stylesheet" type="text/css" href="/css/style.css" />
+	<title><?php $this->title ?></title>
+	<link rel="stylesheet" type="text/css" href="<?= Controller::url('css', 'style.css') ?>"/>
+	<link rel="stylesheet" type="text/css" href="<?= Controller::url('css', 'normalize.css') ?>"/>
 	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.css" rel="stylesheet">
 	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.css" rel="stylesheet">
 </head>
 <body>
-<form class="form-horizontal" method="post" action="<?php Controller::url('proFileStaff')?>">
+<form class="form-horizontal col-md-12" method="post">
 	<fieldset>
 		<legend>Вход в систему</legend>
 		<div class="form-group">
