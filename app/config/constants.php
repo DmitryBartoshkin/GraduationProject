@@ -8,4 +8,4 @@ define('APP_DB_HOST', 'localhost');
 define('APP_DB_DATABASE', 'rts');
 define('APP_DB_PREFIX', '');
 define('APP_GB_MESSAGES_PER_PAGE', 5);
-define('APP_DEFAULT_CONTROLLER', 'Auth');
+define('APP_DEFAULT_CONTROLLER', 'controllerTemplate');

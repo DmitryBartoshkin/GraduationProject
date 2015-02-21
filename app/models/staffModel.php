@@ -21,7 +21,7 @@ class StaffModel extends Model{
 		}
 
 		array_walk( $arr, function ( &$val, $key ) {
-			unset( $val['authkey'] );
+			unset( $val['password'] );
 		} );
 
 		return $arr;

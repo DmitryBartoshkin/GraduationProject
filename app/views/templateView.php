@@ -8,6 +8,6 @@
 	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.css" rel="stylesheet">
 </head>
 <body>
-<?php include 'app/views/'.$contentView; ?>
+<h1>Main page - index</h1>
 </body>
 </html>

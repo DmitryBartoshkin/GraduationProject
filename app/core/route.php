@@ -1,54 +1,37 @@
 <?php
-class Route {
 
-	static function start(){
+class Route{
 
-		//действие контроллера по умолчанию
-		$controllerName = 'Auth';
-		$actionName = 'index';
-		$routes = explode('/', $_SERVER['REQUEST_URI']);
+	private static $controllerName;
 
-		//получаем имя контроллера
-		if(!empty($routes[0])){
-			$controllerName = $routes[0];
-		}
+	public static function start(){
 
-		//получаем имя экшена
-		if(!empty($routes[2])){
-			$actionName = $routes[2];
-		}
+		$url      = isset( $_GET['url'] ) ? trim( $_GET['url'] ) : APP_DEFAULT_CONTROLLER;
+		$urlParts = explode( '/', rtrim( $url, '/' ) );
 
-		//добавляем префиксы
-		$modelName = 'model'.$controllerName;
-		$controllerName = 'controller'.$controllerName;
-		$actionName = 'action'.$actionName;
+		$actionParams = array_slice( $urlParts, 2 );
 
-		//подхватываем файл с классом модели (файла модели может и не быть)
-		$modelFile = strtolower($modelName).'.php';
-		$modelPath = "app/models/".$modelFile;
-		if(file_exists($modelPath)){
-			include "app/models/".$modelFile;
-		}
+		self::$controllerName = $urlParts[0];
 
-		//подхватываем файл с классом контроллера (файла контроллера может и не быть)
-		$controllerFile = strtolower($controllerName).'.php';
-		$controllerPath = "app/controllers/".$controllerFile;
-		if(file_exists($controllerPath)){
-			include "app/controllers/".$controllerFile;
-		}
-		else{
-			ControllerError::notFoundAction();
-		}
+		$controllerName = self::$controllerName . 'Controller';
 
-		//создаем контроллер
 		$controller = new $controllerName;
-		$action = $actionName;
-		if(method_exists($controller, $action)){
-			//вызываем действие контроллера
-			$controller->$action();
+
+		$actionName = isset( $urlParts[1] ) ? $urlParts[1] . 'Action' : 'indexAction';
+
+		if ( method_exists( $controller, $actionName ) ) {
+			call_user_func_array( array( $controller, $actionName ), $actionParams );
+		} else {
+			$controller = new ControllerError();
+			$controller->notFoundAction($controller, $actionName);
 		}
-		else{
-			ControllerError::notFoundAction();
-		}
+	}
+
+	/**
+	 * Возвращает имя текущего контроллера
+	 * @return mixed
+	 */
+	public static function getCurrentController() {
+		return strtolower( self::$controllerName );
 	}
 }

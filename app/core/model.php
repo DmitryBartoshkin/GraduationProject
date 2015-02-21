@@ -1,4 +1,5 @@
 <?php
+
 class Model {
 
 	protected static $dbc;
@@ -28,6 +29,4 @@ class Model {
 			$this->$key = $val;
 		}
 	}
-
-	public function getData(){}
 }
