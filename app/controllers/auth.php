@@ -6,7 +6,7 @@ class AuthController extends Controller {
 		parent::__construct();
 	}
 
-	public function loginAction(){
+	public function indexAction(){
 		if ($this->session->isLoggedIn()) {
 			Controller::url('proFileStaff');
 		}
@@ -22,9 +22,7 @@ class AuthController extends Controller {
 				$this->view->msg = 'Ошибка входа в систему';
 			}
 		}
-	}
 
-	public function indexAction() {
 		$this->view->generatePartial('authView');
 	}
 
