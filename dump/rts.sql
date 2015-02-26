@@ -15,18 +15,17 @@ USE `rts`;
 DROP TABLE IF EXISTS `clients`;
 
 CREATE TABLE `clients` (
-  `id` int(11) NOT NULL,
+  `id` int(10) NOT NULL,
   `firstName` varchar(100) NOT NULL,
   `lastName` varchar(100) NOT NULL,
   `birthday` date NOT NULL,
-  `phone` int(15) DEFAULT NULL,
+  `phone` int(13) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
   `pressForce` varchar(65) DEFAULT NULL,
-  `extInfo` varchar(255) DEFAULT NULL,
-  `idMailing` int(10) NOT NULL,
+  `extInfo` text,
+  `mailing` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `idMailing` (`idMailing`),
-  CONSTRAINT `clients_ibfk_1` FOREIGN KEY (`idMailing`) REFERENCES `mailing` (`id`)
+  KEY `idMailing` (`mailing`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `clients` */
@@ -36,79 +35,45 @@ CREATE TABLE `clients` (
 DROP TABLE IF EXISTS `consumables`;
 
 CREATE TABLE `consumables` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(10) NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL,
-  `idValue` int(65) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `idValue` (`idValue`),
-  CONSTRAINT `consumables_ibfk_1` FOREIGN KEY (`idValue`) REFERENCES `values` (`id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `consumables` */
 
-/*Table structure for table `mailing` */
+/*Table structure for table `productivity` */
 
-DROP TABLE IF EXISTS `mailing`;
+DROP TABLE IF EXISTS `productivity`;
 
-CREATE TABLE `mailing` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `status` varchar(10) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Data for the table `mailing` */
-
-/*Table structure for table `masters` */
-
-DROP TABLE IF EXISTS `masters`;
-
-CREATE TABLE `masters` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `name` varchar(65) NOT NULL,
-  `birthday` date NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Data for the table `masters` */
-
-/*Table structure for table `prices` */
-
-DROP TABLE IF EXISTS `prices`;
-
-CREATE TABLE `prices` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `price` int(65) NOT NULL,
-  `idProgram` int(10) NOT NULL,
-  `idTime` int(10) NOT NULL,
-  `idConsumable` int(10) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `idProgram` (`idProgram`),
-  KEY `idTime` (`idTime`),
-  KEY `prices_ibfk_3` (`idConsumable`),
-  CONSTRAINT `prices_ibfk_1` FOREIGN KEY (`idProgram`) REFERENCES `programs` (`id`),
-  CONSTRAINT `prices_ibfk_2` FOREIGN KEY (`idTime`) REFERENCES `times` (`id`),
-  CONSTRAINT `prices_ibfk_3` FOREIGN KEY (`idConsumable`) REFERENCES `consumables` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Data for the table `prices` */
-
-/*Table structure for table `productions` */
-
-DROP TABLE IF EXISTS `productions`;
-
-CREATE TABLE `productions` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `idStaff` int(10) NOT NULL,
-  `date` date NOT NULL,
-  `startTime` time NOT NULL,
-  `endTime` time NOT NULL,
-  `hours` int(10) NOT NULL,
+CREATE TABLE `productivity` (
+  `id` int(255) NOT NULL AUTO_INCREMENT,
+  `startTime` datetime NOT NULL,
+  `endTime` datetime NOT NULL,
+  `idStaff` int(5) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `idStaff` (`idStaff`),
-  CONSTRAINT `productions_ibfk_1` FOREIGN KEY (`idStaff`) REFERENCES `staff` (`id`)
+  CONSTRAINT `productivity_ibfk_1` FOREIGN KEY (`idStaff`) REFERENCES `staff` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Data for the table `productions` */
+/*Data for the table `productivity` */
+
+/*Table structure for table `program_consumables_values` */
+
+DROP TABLE IF EXISTS `program_consumables_values`;
+
+CREATE TABLE `program_consumables_values` (
+  `idProgram` int(10) NOT NULL,
+  `idConsumables` int(10) NOT NULL,
+  `idValues` int(10) NOT NULL,
+  PRIMARY KEY (`idProgram`,`idConsumables`,`idValues`),
+  KEY `idConsumables` (`idConsumables`),
+  KEY `idValues` (`idValues`),
+  CONSTRAINT `program_consumables_values_ibfk_1` FOREIGN KEY (`idConsumables`) REFERENCES `consumables` (`id`),
+  CONSTRAINT `program_consumables_values_ibfk_2` FOREIGN KEY (`idValues`) REFERENCES `values` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `program_consumables_values` */
 
 /*Table structure for table `programs` */
 
@@ -116,13 +81,12 @@ DROP TABLE IF EXISTS `programs`;
 
 CREATE TABLE `programs` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
-  `title` varchar(65) NOT NULL,
-  `idTime` int(10) NOT NULL,
-  `idPrice` int(10) NOT NULL,
+  `program` varchar(50) NOT NULL,
+  `time` time NOT NULL,
+  `price` int(10) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `idTime` (`idTime`),
-  KEY `idPrice` (`idPrice`),
-  CONSTRAINT `programs_ibfk_2` FOREIGN KEY (`idPrice`) REFERENCES `prices` (`id`)
+  KEY `idTime` (`time`),
+  CONSTRAINT `programs_ibfk_3` FOREIGN KEY (`id`) REFERENCES `program_consumables_values` (`idProgram`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `programs` */
@@ -132,8 +96,9 @@ CREATE TABLE `programs` (
 DROP TABLE IF EXISTS `staff`;
 
 CREATE TABLE `staff` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `name` varchar(65) NOT NULL,
+  `id` int(5) NOT NULL AUTO_INCREMENT,
+  `firstName` varchar(100) NOT NULL,
+  `lastName` varchar(100) NOT NULL,
   `birthday` date NOT NULL,
   `occupation` varchar(65) NOT NULL,
   `login` varchar(65) NOT NULL,
@@ -143,19 +108,9 @@ CREATE TABLE `staff` (
 
 /*Data for the table `staff` */
 
-insert  into `staff`(`id`,`name`,`birthday`,`occupation`,`login`,`password`) values (1,'Надя','1990-05-15','менеджер','nadya','827ccb0eea8a706c4c34a16891f84e7b'),(2,'Администратор','1984-10-10','администратор','admin','4eae18cf9e54a0f62b44176d074cbe2f');
-
-/*Table structure for table `times` */
-
-DROP TABLE IF EXISTS `times`;
-
-CREATE TABLE `times` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `time` int(10) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Data for the table `times` */
+insert  into `staff`(`id`,`firstName`,`lastName`,`birthday`,`occupation`,`login`,`password`) values (1,'Надя','',
+'1990-05-15','менеджер','nadya','827ccb0eea8a706c4c34a16891f84e7b'),(2,'Администратор','','1984-10-10',
+'администратор','admin','12345');
 
 /*Table structure for table `values` */
 
@@ -164,7 +119,7 @@ DROP TABLE IF EXISTS `values`;
 CREATE TABLE `values` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `volume` int(10) NOT NULL,
-  `metric` varchar(65) NOT NULL,
+  `metric` varchar(10) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -175,19 +130,19 @@ CREATE TABLE `values` (
 DROP TABLE IF EXISTS `vizits`;
 
 CREATE TABLE `vizits` (
-  `id` int(100) NOT NULL,
+  `id` int(100) NOT NULL AUTO_INCREMENT,
   `idClient` int(10) NOT NULL,
   `time` time NOT NULL,
   `date` date NOT NULL,
+  `idStaff` int(5) NOT NULL,
   `idProgram` int(10) NOT NULL,
-  `idMaster` int(10) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `idClient` (`idClient`),
-  KEY `idMaster` (`idMaster`),
-  KEY `idProgram` (`idProgram`),
+  KEY `idStaff` (`idStaff`),
+  KEY `idPrice` (`idProgram`),
   CONSTRAINT `vizits_ibfk_1` FOREIGN KEY (`idClient`) REFERENCES `clients` (`id`),
-  CONSTRAINT `vizits_ibfk_2` FOREIGN KEY (`idMaster`) REFERENCES `masters` (`id`),
-  CONSTRAINT `vizits_ibfk_3` FOREIGN KEY (`idProgram`) REFERENCES `programs` (`id`)
+  CONSTRAINT `vizits_ibfk_4` FOREIGN KEY (`idStaff`) REFERENCES `staff` (`id`),
+  CONSTRAINT `vizits_ibfk_5` FOREIGN KEY (`idProgram`) REFERENCES `programs` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `vizits` */

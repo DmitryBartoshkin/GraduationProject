@@ -14,10 +14,10 @@ class Model {
 	}
 
 	/**
-	 * @return App_PDO Возвращает объект соединения с базой данных
+	 * @return AppPDO Возвращает объект соединения с базой данных
 	 */
 	public static function db(){
-		return App_PDO::getInstance();
+		return AppPDO::getInstance();
 	}
 
 	/**

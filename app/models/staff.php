@@ -5,8 +5,8 @@ class StaffModel extends Model{
 	public function __construct( array $properties = array() ) {
 		parent::__construct();
 
-		foreach ( $properties as $name => $val ) {
-			$this->$name = $val;
+		foreach ( $properties as $firstName => $val ) {
+			$this->$firstName = $val;
 		}
 	}
 

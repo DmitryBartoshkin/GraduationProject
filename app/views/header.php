@@ -14,13 +14,10 @@
 			<a class="navbar-brand" href="#">Сайт компании</a>
 			<ul class="nav navbar-nav navbar-right">
 				<?php
-				if ( $this->session->isLoggedIn() ) {
+				if ( !empty($this->session->getName()) ) {
 					echo '<li class="active"><a href="#">' . $this->session->getName() . '</a></li>';
-					echo '<li><a href="' . Controller::url( 'auth', 'logout' ) . '">Выйти</a></li>';
-				} else {
-					echo '<li><a href="' . Controller::url( 'auth', 'login' ) . '">Войти</a></li>';
-				}
-				?></li>
+					echo '<li><a href="' . Controller::url( 'logout' ) . '">Выйти</a></li>';
+				}?>
 			</ul>
 		</div>
 	</div>

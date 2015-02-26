@@ -21,14 +21,14 @@ Class SessionModel extends Model{
 	 * @return bool Флаг залогинен ли текущий пользователь
 	 */
 	public function isLoggedIn(){
-		return isset($_SESSION['username']);
+		return isset($_SESSION['firstName']);
 	}
 
 	/**
 	 * @return string Имя текущего пользователя, если он залогинен
 	 */
 	public function getName(){
-		return $this->isLoggedIn() ? $_SESSION['username'] : '';
+		return $this->user->firstName;
 	}
 
 	/**
@@ -53,7 +53,7 @@ Class SessionModel extends Model{
 	public function __destruct(){
 		if ($this->user) {
 			$_SESSION['userId'] = $this->user->id;
-			$_SESSION['username'] = $this->user->name;
+			$_SESSION['firstName'] = $this->user->firstName;
 		}
 	}
 }
